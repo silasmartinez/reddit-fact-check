@@ -1,0 +1,25 @@
+header {
+  width: 100%;
+  height: 75px;
+  background: $blue;
+  border-bottom: 1px solid $dark;
+  img {
+    float: left;
+    max-height: 75px;
+  }
+  .title {
+    padding-left: 15px;
+    font-size: 40px;
+    float: left;
+    span {
+      font-size: 25px;
+    }
+  }
+  nav {
+    float: right;
+    div {
+      font-size: 18px;
+      padding-right: 20px;
+    }
+  }
+}

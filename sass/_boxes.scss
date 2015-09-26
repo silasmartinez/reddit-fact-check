@@ -1,0 +1,33 @@
+.post-item {
+  width: 97%;
+  border: 1px solid $dark;
+  padding: 5px;
+  margin: 1px;
+  background: lighten($tan-muted, 13%);
+  .project-name {
+    border: 1px solid $dark-muted;
+    border-bottom: none;
+    font-size: larger;
+    background: $brown;
+    padding: 3px;
+  }
+  .links div {
+    border-top: none;
+  }
+  .title {
+
+  }
+  .link {
+    float: right;
+    margin: -20px 0px;
+  }
+}
+.admin {
+  a {
+    font-size: smaller;
+  }
+}
+.shrink {
+  transition: all .5s ease-in-out;
+  transform: scale(.9);
+}

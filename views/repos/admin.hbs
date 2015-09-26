@@ -1,0 +1,20 @@
+<h1>{{title}}</h1>
+
+<div class="admin">
+    <div>Working as {{username}} : <a href="/repos/reset">Resync from GitHub?</a></div>
+    {{#repos}}
+        <div class="box admin">
+            {{name}}
+            <div>
+                {{description}}
+            </div>
+            {{#if npm}}
+                <div>Linked to NPM</div>
+            {{/if}}
+            {{#if visible}}
+                <div>Visible</div>
+            {{/if}}
+            <a href="/repos/{{_id}}/edit">Edit Visibility</a>
+        </div>
+    {{/repos}}
+</div>

@@ -1,0 +1,27 @@
+<h1>{{title}}</h1>
+
+<div class="admin">
+    <div class="title">Editing visibility for project {{name}}</div>
+    <form action="/repos/{{_id}}/update" method="post">
+        <h3>{{name}}</h3>
+        <div>
+            {{description}}
+        </div>
+        <div>
+            <label for="localNotes">Local Description <br/>
+                <textarea name="localNotes" id="" cols="80" rows="10">{{localNotes}}</textarea>
+            </label>
+        </div>
+        <div>
+            <label for="visible"> Make Visible?
+                <input type="checkbox" name="visible" value="on" {{#if visible}}checked{{/if}}/>
+            </label>
+        </div>
+        <div>
+            <label for="npm"> Link to NPM?
+                <input type="checkbox" name="npm" value="on"{{#if npm}}checked{{/if}}/>
+            </label>
+        </div>
+        <div><input type="submit"/></div>
+    </form>
+</div>

@@ -1,0 +1,36 @@
+<!--<p>Hi. I'm Silas Martinez. I have some projects on <a target="_blank" href="{{githubUrl}}">GitHub</a>. Here are a few of them.</p>
+-->
+<p>Sign in to publish your projects from GitHub.</p>
+<div class="main">
+    {{#repos}}
+        {{#if visible}}
+            <div class="box">
+                <div class="project-name">
+                {{name}}
+                </div>
+                <div>
+                    {{description}}<br/>
+                    by {{owner.login}}
+                </div>
+                {{#if localNotes}}
+                    <div>
+                        {{localNotes}}
+                    </div>
+                {{/if}}
+                <div class="links">
+                    <div>
+                        {{#if npm}}
+                            Get it on <a target="_blank" href="https://www.npmjs.com/package/{{name}}">npm</a>!
+                        {{/if}}
+                    </div>
+                    <div>
+                        See the code on <a target="_blank" href="{{html_url}}">GitHub</a>.
+                    </div>
+                </div>
+
+            </div>
+        {{/if}}
+    {{/repos}}
+    <br class="clear" />
+</div>
+<script src="/javascripts/boxes.js"></script>

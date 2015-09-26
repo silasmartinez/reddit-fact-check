@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body ng-controller="MainController">
+<header>
+    <div class="title">{{title}}  <span>{{tagline}}</span></div>
+    <nav>
+        <div>{{#if user.name}}
+            {{user.name}}
+
+            <a href="/repos/admin">Settings</a>
+            <a href="/repos">Main</a>
+
+            <a href="/logout">Logout</a>
+        {{else}}
+            <a href="/login">GitHub Login</a>
+        {{/if}}
+        </div>
+    </nav>
+</header>
+{{{body}}}
+</body>
+</html>

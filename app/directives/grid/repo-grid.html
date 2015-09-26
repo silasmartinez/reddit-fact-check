@@ -1,0 +1,30 @@
+<div class="repo-grid">
+    <div ng-repeat="repo in repos">
+        <div class="box">
+            <div class="project-name">
+                {{repo.name}}
+            </div>
+            <div>
+                {{repo.description}}
+            </div>
+            <div>
+                {{repo.localNotes}}
+            </div>
+            <div>
+                {{repo.owner.login}}
+            </div>
+            <div ng-if="!admin" class="links">
+                <div ng-if="repo.npm">
+                    Get it on <a target="_blank" href="https://www.npmjs.com/package/{{repo.name}}">npm</a>!
+                </div>
+                <div>
+                    See the code on <a target="_blank" href="{{repo.html_url}}">GitHub</a>.
+                </div>
+            </div>
+            <div ng-if="admin">
+                <a href="#/repos/{{repo._id}}">Edit Visibility</a>
+                <span ng-if="repo.visible">(currently visible)</span>
+            </div>
+        </div>
+    </div>
+</div>

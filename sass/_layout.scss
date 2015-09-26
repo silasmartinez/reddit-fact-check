@@ -1,0 +1,26 @@
+body p {
+  padding: 10px;
+}
+
+.main {
+  max-width: 740px;
+  padding: 10px;
+  margin: 0 100px;
+  border: 1px solid $dark;
+  border-radius: 4px;
+}
+
+.reddit-list {
+  border: 1px solid $dark;
+  width: 95px;
+  float: left;
+}
+
+a {
+  color: $dark-muted;
+  text-decoration: underline;
+}
+
+.clear {
+  clear: both;
+}

@@ -1,0 +1,16 @@
+<header>
+    <div class="title">Reddit-Redux<span> a smarter reddit</span></div>
+    <nav>
+        <div ng-if="user">
+            {{user.name}}
+
+            <a href="#/repos/admin">Settings</a>
+            <a href="#/repos">Main</a>
+
+            <a href="/logout">Logout</a>
+        </div>
+        <div ng-if="!user">
+            <a href="/login">GitHub Login</a>
+        </div>
+    </nav>
+</header>
