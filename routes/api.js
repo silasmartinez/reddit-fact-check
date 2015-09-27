@@ -7,7 +7,7 @@ var alchemy = require('../lib/index')(process.env.ALCHEMY_API_KEY);
 var admin = wroth.sessionHas('username', '/');
 
 router.get('/', function (req, res, next) {
-  console.log(req.session.passport.user)
+  console.log(req.session.passport.user);
   res.json({});
 });
 
@@ -72,7 +72,7 @@ router.get('/alchemy/text', function (req, res, next) {
 });
 
 router.get('/profile', function (req, res, next) {
-  console.log(req.session.passport.user)
+  console.log(req.session.passport.user);
   res.json({user: req.session.passport.user});
 });
 

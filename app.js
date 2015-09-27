@@ -12,16 +12,9 @@ var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-// var repos = require('./routes/repos');
 var api = require('./routes/api');
 
 var app = express();
-
-app.use(function (req, res, next) {
-  app.locals.title = 'Reddit Fact Checker';
-  app.locals.tagline = 'I read it on the internet - it must be true..';
-  next();
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,7 +24,7 @@ app.set('view engine', 'hbs');
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -58,24 +51,29 @@ passport.use(new LinkedInStrategy({
   scope: ['r_emailaddress', 'r_basicprofile'],
   state: true
 }, function (accessToken, refreshToken, profile, done) {
-
-  var userDb = db.get('users')
-  userDb.insert(profile)
-    .then(function () {
+  var userDb = db.get('users');
+  userDb.findOne({id: profile.id})
+    .then(function (result) {
+      if (result) {
         return done(null, {id: profile.id, displayName: profile.displayName, token: accessToken});
-      })
-
+      } else {
+        userDb.insert(profile)
+          .then(function () {
+            return done(null, {id: profile.id, displayName: profile.displayName, token: accessToken});
+          });
+      }
+    });
 }));
 
 app.get('/login',
   passport.authenticate('linkedin'),
-  function (req, res) {});
+  function (req, res) {
+  });
 app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
   successRedirect: '/',
   failureRedirect: '/login'
 }));
 
-// above app.use('/', routes);...
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -93,20 +91,6 @@ app.use(function (req, res, next) {
   res.locals.user = req.session;
   next();
 });
-
-app.get('/login', passport.authenticate('github'));
-app.get('/auth/linkedin/callback',
-  passport.authenticate('github', {failureRedirect: '/auth/error'}), function (req, res, next) {
-    console.log('foo');
-    var adminUsers = ['silasmartinez'];
-    req.session.name = req.user.profile.displayName;
-    req.session.username = req.user.profile.username;
-    if (adminUsers.indexOf(req.user.profile.username) >= 0) {
-      req.session.isAdmin = 1;
-    }
-    res.redirect('/');
-  }
-);
 
 app.get('/auth/err', function (res, req, next) {
   res.render('error', res.body);
