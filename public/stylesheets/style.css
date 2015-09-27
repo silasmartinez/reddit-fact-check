@@ -135,6 +135,13 @@ a {
     float: right;
     margin: -20px 0px; }
 
+.post .link {
+  float: right;
+  color: #aa9977; }
+
+.post .no-text {
+  margin-top: 50px; }
+
 .admin a {
   font-size: smaller; }
 

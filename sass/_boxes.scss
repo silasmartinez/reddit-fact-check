@@ -22,6 +22,15 @@
     margin: -20px 0px;
   }
 }
+.post {
+  .link {
+    float: right;
+    color: $brown;
+  }
+  .no-text {
+    margin-top: 50px;
+  }
+}
 .admin {
   a {
     font-size: smaller;

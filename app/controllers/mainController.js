@@ -31,10 +31,7 @@ export default ngModule => {
           delete (post['$$hashKey']);
           redditService.checkPost(post)
             .then(function (targetPost) {
-              console.log(targetPost.id);
               $location.path('/posts/' + targetPost.id);
-              // $location.path('/reddit/space')
-
             });
         }
       };

@@ -2,11 +2,12 @@ const marked = require('marked');
 
 export default ngModule => {
   ngModule.controller('PostController',
-    function ($scope, postService, $routeParams, $location, $compile) {
+    function ($scope, postService, $routeParams, $location) {
       $scope.post = '';
       $scope.admin = '';
 
       function applyRemoteData (post) {
+        //console.log(post)
         if (post.text) {
           post.text = marked(post.text);
         }
@@ -28,8 +29,16 @@ export default ngModule => {
         );
       }
 
-      $scope.getPostText = function (post) {
-        console.log('selected post: ', post);
+      $scope.getPostText = function (postId) {
+        console.log('selected post: ', postId);
+        postService.getRemoteText(postId)
+          .then(function () {
+            return postService.getPost($routeParams.postId)
+          })
+          .then(
+          function (data) {
+            applyRemoteData(data);
+          });
       };
     }
   );

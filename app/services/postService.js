@@ -3,7 +3,7 @@ export default ngModule => {
     function ($http, $q) {
       return ({
         getPost: getPost,
-        getPrivateRepositories: getPrivateRepositories
+        getRemoteText: getRemoteText
       });
 
       function getPost (id) {
@@ -14,12 +14,12 @@ export default ngModule => {
         return (request.then(handleSuccess, handleError));
       }
 
-      function getPrivateRepositories () {
+      function getRemoteText (id) {
         var request = $http({
           method: 'get',
-          url: '/api/admin',
+          url: '/api/alchemy/text',
           params: {
-            action: 'get'
+            postId: id
           }
         });
         return (request.then(handleSuccess, handleError));
