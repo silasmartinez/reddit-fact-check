@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.directive('redditList', () => {
     require('./reddit-list.css');

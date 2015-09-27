@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.directive('postList', () => {
     require('./post-list.css');
@@ -7,4 +6,9 @@ export default ngModule => {
       controller: 'MainController'
     };
   });
+  ngModule.filter('sanitize', ['$sce', function ($sce) {
+    return function (htmlCode) {
+      return $sce.trustAsHtml(htmlCode);
+    };
+  }]);
 };

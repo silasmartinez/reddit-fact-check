@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.controller('MainController',
     function ($scope, redditService, $routeParams, $location) {
@@ -15,22 +14,30 @@ export default ngModule => {
         var baseData = [{
           title: 'Select a subreddit from the links to the left of this message, or log in to add subreddits.'
         }];
-        applyRemoteData(baseData)
+        applyRemoteData(baseData);
       }
 
       function loadRemoteData () {
         redditService.getSubReddit($routeParams.subReddit)
           .then(
-          function (data) {
-            applyRemoteData(data.posts);
-          }
+            function (data) {
+              applyRemoteData(data.posts);
+            }
         );
       }
 
       $scope.selectPost = function (post) {
-        console.log('selected post: ', post)
-        $location.path('#/reddit');
-      }
+        if (post.comments) {
+          delete (post['$$hashKey']);
+          redditService.checkPost(post)
+            .then(function (targetPost) {
+              console.log(targetPost.id);
+              $location.path('/posts/' + targetPost.id);
+              // $location.path('/reddit/space')
+
+            });
+        }
+      };
     }
   );
 };

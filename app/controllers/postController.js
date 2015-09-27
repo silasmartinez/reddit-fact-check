@@ -1,35 +1,36 @@
+const marked = require('marked');
 
 export default ngModule => {
   ngModule.controller('PostController',
-    function ($scope, redditService, $routeParams) {
-      $scope.posts = [];
+    function ($scope, postService, $routeParams, $location, $compile) {
+      $scope.post = '';
       $scope.admin = '';
 
-      function applyRemoteData (posts) {
-        $scope.posts = posts;
+      function applyRemoteData (post) {
+        if (post.text) {
+          post.text = marked(post.text);
+        }
+        $scope.post = post;
       }
 
-      if ($routeParams.subReddit) {
-        loadRemoteData($routeParams.subReddit);
+      if ($routeParams.postId) {
+        loadRemoteData();
       } else {
-        var baseData = [{
-          title: 'Select a subreddit from the links to the left of this message, or log in to add subreddits.'
-        }];
-        applyRemoteData(baseData)
+        $location.path('/reddit');
       }
 
       function loadRemoteData () {
-        redditService.getSubReddit($routeParams.subReddit)
+        postService.getPost($routeParams.postId)
           .then(
-          function (data) {
-            applyRemoteData(data.posts);
-          }
+            function (data) {
+              applyRemoteData(data);
+            }
         );
       }
 
-      $scope.selectPost = function (post) {
-        console.log('selected post: ', post)
-      }
+      $scope.getPostText = function (post) {
+        console.log('selected post: ', post);
+      };
     }
   );
 };

@@ -1,11 +1,11 @@
-
 export default ngModule => {
   ngModule.service('redditService',
     function ($http, $q) {
       // Return public API.
       return ({
         getSubList: getSubList,
-        getSubReddit: getSubReddit
+        getSubReddit: getSubReddit,
+        checkPost: checkPost
       });
 
       function getSubReddit (sub) {
@@ -26,6 +26,16 @@ export default ngModule => {
           params: {
             action: 'get'
           }
+        });
+        return (request.then(handleSuccess, handleError));
+      }
+
+      function checkPost (post) {
+        console.log(post);
+        var request = $http({
+          method: 'post',
+          url: '/api/reddit',
+          data: post
         });
         return (request.then(handleSuccess, handleError));
       }

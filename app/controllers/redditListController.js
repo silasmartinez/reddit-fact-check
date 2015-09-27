@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.controller('RedditListController',
     function ($scope) {
@@ -8,21 +7,21 @@ export default ngModule => {
         {name: 'space'}
       ];
 
-      //function applyRemoteData (newRepos) {
-      //  $scope.repos = newRepos.repos;
-      //}
-      //
-      //loadRemoteData();
-      //
-      //function loadRemoteData () {
-      //  repoService.getPublicRepositories()
-      //    .then(
-      //      function (repos) {
-      //        applyRemoteData(repos);
-      //      }
-      //  );
-      //
-      //}
+    // function applyRemoteData (newRepos) {
+    //  $scope.repos = newRepos.repos;
+    // }
+    //
+    // loadRemoteData();
+    //
+    // function loadRemoteData () {
+    //  repoService.getPublicRepositories()
+    //    .then(
+    //      function (repos) {
+    //        applyRemoteData(repos);
+    //      }
+    //  );
+    //
+    // }
     }
   );
 };

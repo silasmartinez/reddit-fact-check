@@ -1,19 +1,15 @@
-
 export default ngModule => {
-  ngModule.service('repoService',
+  ngModule.service('postService',
     function ($http, $q) {
       return ({
-        getPost: getPublicRepositories,
+        getPost: getPost,
         getPrivateRepositories: getPrivateRepositories
       });
 
-      function getPublicRepositories () {
+      function getPost (id) {
         var request = $http({
           method: 'get',
-          url: '/api',
-          params: {
-            action: 'get'
-          }
+          url: '/api/posts/' + id
         });
         return (request.then(handleSuccess, handleError));
       }

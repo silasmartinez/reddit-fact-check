@@ -1,4 +1,3 @@
-
 export default ngModule => {
   require('./mainController')(ngModule);
   require('./postController')(ngModule);
@@ -6,4 +5,3 @@ export default ngModule => {
   require('./profileController')(ngModule);
   require('./visibilityController')(ngModule);
 };
-

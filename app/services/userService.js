@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.service('userService',
     function ($http, $q) {
@@ -9,10 +8,7 @@ export default ngModule => {
       function getProfileInfo () {
         var request = $http({
           method: 'get',
-          url: '/api/profile',
-          params: {
-            action: 'get'
-          }
+          url: '/api/profile'
         });
         return (request.then(handleSuccess, handleError));
       }

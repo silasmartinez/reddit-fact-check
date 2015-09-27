@@ -7,12 +7,13 @@ var alchemy = require('../lib/index')(process.env.ALCHEMY_API_KEY);
 var admin = wroth.sessionHas('username', '/');
 
 router.get('/', function (req, res, next) {
+  console.log(req.session.passport.user)
   res.json({});
 });
 
 router.get('/reddit', function (req, res, next) {
   axios.get('https://www.reddit.com/r/' + req.query.sub + '.json')
-    .then(function(results){
+    .then(function (results) {
       var matchDomain = 'self.' + req.query.sub;
       var posts = [];
       var reddits = results.data.data.children;
@@ -21,44 +22,58 @@ router.get('/reddit', function (req, res, next) {
         post.comments = 'https://www.reddit.com' + ele.data.permalink;
         if (ele.data.domain === matchDomain) {
           post.title = ele.data.title;
-          post.text = ele.data.selftext.replace(/(\n)/gm, '');
+          post.text = ele.data.selftext;
           posts.push(post);
         } else {
           post.title = ele.data.title;
           post.url = ele.data.url;
           posts.push(post);
         }
-      })
-      res.json({posts: posts})
-    })
+      });
+      res.json({posts: posts});
+    });
 });
 
 router.post('/reddit', function (req, res, next) {
-  var savePost = req.db.get('posts');
-  savePost.insert(req.body)
-    .then(function (result) {
-      res.json(result);
-    })
-})
+  var post = req.body;
+  var confirmPost = req.db.get('posts');
+  var commentCheck = new RegExp(req.body.comments.split('/')[6]);
+  confirmPost.findOne({comments: commentCheck})
+    .then(function (found) {
+      console.log('first find returned:', found);
+      if (found) {
+        console.log(found._id);
+        res.json({status: 'found', id: found._id});
+      } else {
+        confirmPost.insert(post)
+          .then(function (inserted) {
+            console.log('added', inserted);
+            res.json({status: 'added', id: inserted._id});
+          });
+      }
+    });
 
-router.delete('/reddit/:id', function (req, res, next) {
-  var deletePost = req.db.get('posts');
-  deletePost.remove(req.params.id)
+});
+
+router.get('/posts/:id', function (req, res, next) {
+  var getPost = req.db.get('posts');
+  getPost.findById(req.params.id)
     .then(function (result) {
-      res.json({status: 'ok', deleted: req.params.id});
-    })
-})
+      console.log(result);
+      res.json(result);
+    });
+});
 
 router.get('/alchemy/text', function (req, res, next) {
   alchemy.lookup('text', 'url', req.query.url)
     .then(function (result) {
-      res.json(result)
-    })
-})
-
-router.get('/profile', admin(), function (req, res, next) {
-  res.json({user: req.session});
+      res.json(result);
+    });
 });
 
+router.get('/profile', function (req, res, next) {
+  console.log(req.session.passport.user)
+  res.json({user: req.session.passport.user});
+});
 
 module.exports = router;

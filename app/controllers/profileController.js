@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.controller('ProfileController',
     function ($scope, userService) {

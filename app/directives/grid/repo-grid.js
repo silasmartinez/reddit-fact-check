@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.directive('repoGrid', () => {
     require('./repo-grid.css');

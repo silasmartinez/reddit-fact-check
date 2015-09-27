@@ -8,11 +8,11 @@ var bodyParser = require('body-parser');
 var db = require('monk')(process.env.MONGOLAB_URI);
 var cookieSession = require('cookie-session');
 var passport = require('passport');
-var GithubStrategy = require('passport-github').Strategy;
+var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-//var repos = require('./routes/repos');
+// var repos = require('./routes/repos');
 var api = require('./routes/api');
 
 var app = express();
@@ -45,16 +45,37 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GithubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: process.env.HOST + '/auth/callback'
+// Add db to req
+app.use(function (req, res, next) {
+  req.db = db;
+  next();
+});
+
+passport.use(new LinkedInStrategy({
+  clientID: process.env.LINKEDIN_CLIENT_ID,
+  clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+  callbackURL: process.env.HOST + '/auth/linkedin/callback',
+  scope: ['r_emailaddress', 'r_basicprofile'],
+  state: true
 }, function (accessToken, refreshToken, profile, done) {
-  done(null, {
-    accessToken: accessToken,
-    profile: profile
-  });
+
+  var userDb = db.get('users')
+  userDb.insert(profile)
+    .then(function () {
+        return done(null, {id: profile.id, displayName: profile.displayName, token: accessToken});
+      })
+
 }));
+
+app.get('/login',
+  passport.authenticate('linkedin'),
+  function (req, res) {});
+app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
+// above app.use('/', routes);...
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -63,9 +84,8 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
-// Add db to req
 app.use(function (req, res, next) {
-  req.db = db;
+  res.locals.user = req.user;
   next();
 });
 
@@ -74,19 +94,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(function (req, res, next) {
-  var localRepos = req.db.get('repositories');
-  localRepos.findOne({})
-    .then(function (doc) {
-      var myInfo = doc.owner;
-      res.locals.githubUrl = myInfo.html_url;
-      res.locals.myAvatar = myInfo.avatar_url;
-      next();
-    });
-});
-
 app.get('/login', passport.authenticate('github'));
-app.get('/auth/callback',
+app.get('/auth/linkedin/callback',
   passport.authenticate('github', {failureRedirect: '/auth/error'}), function (req, res, next) {
     console.log('foo');
     var adminUsers = ['silasmartinez'];
@@ -109,7 +118,7 @@ app.get('/logout', function (req, res, next) {
 
 app.use('/', routes);
 app.use('/users', users);
-//app.use('/repos', repos);
+// app.use('/repos', repos);
 app.use('/api', api);
 
 // catch 404 and forward to error handler

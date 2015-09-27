@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.directive('myHello', () => {
     require('./my-hello.css');

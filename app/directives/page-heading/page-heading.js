@@ -1,4 +1,3 @@
-
 export default ngModule => {
   ngModule.directive('pageHeading', () => {
     require('./page-heading.css');
