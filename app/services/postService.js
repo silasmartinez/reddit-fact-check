@@ -3,6 +3,7 @@ export default ngModule => {
     function ($http, $q) {
       return ({
         getPost: getPost,
+        evalPost: evalPost,
         getRemoteText: getRemoteText
       });
 
@@ -22,6 +23,11 @@ export default ngModule => {
             postId: id
           }
         });
+        return (request.then(handleSuccess, handleError));
+      }
+
+      function evalPost(id) {
+        var request = $http.put('/api/alchemy/evalPost/' + id, {});
         return (request.then(handleSuccess, handleError));
       }
 

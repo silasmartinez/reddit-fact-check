@@ -6,16 +6,22 @@
 
     <div class="link" ng-if="post.comments">
         <a href="{{post.comments}}" target="_blank">comment thread</a><br/>
-        {{post.author}} (evaluate history)<br/><br/>
+        {{post.author}} <span ng-click="evaluatePost(post._id)">(evaluate post)</span><br/><br/>
     </div>
     <p ng-if="post.url"><a href="{{post.url}}" target="_blank">{{post.url}}</a></p>
     <div ng-if="post.text" ng-bind-html="post.text | sanitize"></div>
     <div ng-if="!post.text" class="no-text">
-
-
         <div ng-if="user" ng-click="getPostText(post._id)"><button>retrieve text</button></div>
-        <div ng-if="!user">No text found. This is a URL post on reddit. If you were logged in, we could fetch the
+        <div ng-if="!user">No text found. This may be a URL post on reddit. If you were logged in, we could fetch the
             text for you.
+        </div>
+    </div>
+    <div ng-if="post.keywords" class="analysis">
+        <div>Keywords in this story: <br/>
+            <span ng-repeat="keyword in post.keywords">"{{keyword.text}}" </span>
+        </div>
+        <div>Recently used by {{post.author}}: <br/>
+            <span ng-repeat="keyword in post.authorKeys">"{{keyword.text}}" </span>
         </div>
     </div>
 </div>

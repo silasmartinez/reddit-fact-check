@@ -10,9 +10,12 @@ var cookieSession = require('cookie-session');
 var passport = require('passport');
 var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 
+// routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
+var reddit = require('./routes/api-reddit');
+var alchemy = require('./routes/api-alchemy');
 
 var app = express();
 
@@ -67,8 +70,7 @@ passport.use(new LinkedInStrategy({
 
 app.get('/login',
   passport.authenticate('linkedin'),
-  function (req, res) {
-  });
+  function (req, res) {});
 app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
   successRedirect: '/',
   failureRedirect: '/login'
@@ -104,6 +106,8 @@ app.use('/', routes);
 app.use('/users', users);
 // app.use('/repos', repos);
 app.use('/api', api);
+app.use('/api/reddit', reddit);
+app.use('/api/alchemy', alchemy);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -5,38 +5,37 @@ export default ngModule => {
       return ({
         getSubList: getSubList,
         getSubReddit: getSubReddit,
-        checkPost: checkPost
+        checkPost: checkPost,
+        addSubReddit: addSubReddit,
+        deleteSub: deleteSub
       });
 
       function getSubReddit (sub) {
-        var request = $http({
-          method: 'get',
-          url: '/api/reddit',
-          params: {
-            sub: sub
-          }
+        var request = $http.get('/api/reddit',{
+            params: {
+              sub: sub
+            }
         });
         return (request.then(handleSuccess, handleError));
       }
 
       function getSubList () {
-        var request = $http({
-          method: 'get',
-          url: '/api/admin',
-          params: {
-            action: 'get'
-          }
-        });
+        var request = $http.get('/api/reddit/list');
         return (request.then(handleSuccess, handleError));
       }
 
       function checkPost (post) {
-        console.log(post);
-        var request = $http({
-          method: 'post',
-          url: '/api/reddit',
-          data: post
-        });
+        var request = $http.post('/api/reddit', post);
+        return (request.then(handleSuccess, handleError));
+      }
+
+      function addSubReddit (sub) {
+        var request = $http.post('/api/reddit/list', sub);
+        return (request.then(handleSuccess, handleError));
+      }
+
+      function deleteSub (sub) {
+        var request = $http.delete('/api/reddit/list/' + sub);
         return (request.then(handleSuccess, handleError));
       }
 

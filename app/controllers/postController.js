@@ -7,7 +7,6 @@ export default ngModule => {
       $scope.admin = '';
 
       function applyRemoteData (post) {
-        //console.log(post)
         if (post.text) {
           post.text = marked(post.text);
         }
@@ -33,7 +32,18 @@ export default ngModule => {
         console.log('selected post: ', postId);
         postService.getRemoteText(postId)
           .then(function () {
-            return postService.getPost($routeParams.postId)
+            return postService.getPost($routeParams.postId);
+          })
+          .then(
+            function (data) {
+              applyRemoteData(data);
+            });
+      };
+      $scope.evaluatePost = function (postId) {
+        console.log('evaluating post: ', postId);
+        postService.evalPost(postId)
+          .then(function () {
+            return postService.getPost($routeParams.postId);
           })
           .then(
           function (data) {

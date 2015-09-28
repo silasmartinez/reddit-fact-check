@@ -109,6 +109,12 @@ body p {
   border: 1px solid #664455;
   width: 95px;
   float: left; }
+  .reddit-list .remove {
+    color: red;
+    font-size: smaller;
+    float: right;
+    margin-top: 3px;
+    margin-right: 5px; }
 
 a {
   color: #554455;
@@ -141,6 +147,9 @@ a {
 
 .post .no-text {
   margin-top: 50px; }
+
+.post .analysis {
+  background-color: antiquewhite; }
 
 .admin a {
   font-size: smaller; }

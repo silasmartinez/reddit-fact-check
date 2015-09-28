@@ -1,9 +1,11 @@
 <div class="sub-list">
-    <div ng-repeat="sub in reddits">
-        <a href="#/reddit/{{sub.name}}">
-            <div>
-                {{sub.name}}
-            </div>
-        </a>
+    <div ng-repeat="sub in subs">
+        <div>
+            <a href="#/reddit/{{sub.name}}">{{sub.name}}</a> <div ng-if="user"  class="remove" ng-click="deleteSub(sub._id)">x</div>
+        </div>
     </div>
+    <form ng-submit="addSub(newSub)">
+        <input type="text" ng-model="newSub" size="13"/><br/>
+        <button type="submit">add subreddit</button>
+    </form>
 </div>
