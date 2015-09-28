@@ -21,7 +21,7 @@ export default ngModule => {
               if (data.posts) {
                 applyRemoteData(data.posts);
               } else {
-                applyRemoteData(data);
+                applyRemoteData(data.reverse());
               }
             }
         );
