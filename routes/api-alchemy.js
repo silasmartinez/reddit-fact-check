@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios');
 var wroth = require('wroth');
-var alchemy = require('../lib/index')(process.env.ALCHEMY_API_KEY);
+var alchemy = require('node_alchemy')(process.env.ALCHEMY_API_KEY);
 
 var admin = wroth.sessionHas('username', '/');
 
