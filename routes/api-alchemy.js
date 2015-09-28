@@ -55,7 +55,7 @@ router.put('/evalPost/:post', function (req, res, next) {
   getPost.findById(req.params.post)
     .then(function (post) {
       author = post.author;
-      return alchemy.lookup('keywords', 'text', post.text);
+      return alchemy.lookup('keywords', 'text', post.text, {sentiment: 1});
     })
     .then(function (postData) {
       console.log('postData',postData.data)
@@ -72,7 +72,7 @@ router.put('/evalPost/:post', function (req, res, next) {
       }, '');
       text = text.substring(0, 5000);
       console.log(text.length)
-      return alchemy.lookup('keywords', 'text', text);
+      return alchemy.lookup('keywords', 'text', text, {sentiment: 1});
     })
     .then(function (userKeys) {
       console.log('userKeys',userKeys.data)

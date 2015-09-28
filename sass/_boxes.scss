@@ -32,6 +32,15 @@
   }
   .analysis {
     background-color: antiquewhite;
+    .positive {
+      color: green;
+    }
+    .negative {
+      color: red;
+    }
+    .neutral {
+      color: #000;
+    }
   }
 }
 .admin {

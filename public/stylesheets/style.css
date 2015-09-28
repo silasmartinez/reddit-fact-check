@@ -150,6 +150,12 @@ a {
 
 .post .analysis {
   background-color: antiquewhite; }
+  .post .analysis .positive {
+    color: green; }
+  .post .analysis .negative {
+    color: red; }
+  .post .analysis .neutral {
+    color: #000; }
 
 .admin a {
   font-size: smaller; }

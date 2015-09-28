@@ -17,11 +17,23 @@
         </div>
     </div>
     <div ng-if="post.keywords" class="analysis">
-        <div>Keywords in this story: <br/>
-            <span ng-repeat="keyword in post.keywords">"{{keyword.text}}" </span>
+        <div class="topics">
+            <div>This story covers the following topics:</div>
+            <span ng-repeat="keyword in post.keywords" >
+                <span ng-if="keyword.sentiment.type == 'positive'" class="positive"> {{keyword.text}}, </span>
+                <span ng-if="keyword.sentiment.type == 'neutral'" class="neutral"> {{keyword.text}}, </span>
+                <span ng-if="keyword.sentiment.type == 'negative'" class="neutral"> {{keyword.text}}, </span>
+                <span ng-if="!keyword.sentiment"> {{keyword.text}}, </span>
+            </span>
         </div>
-        <div>Recently used by {{post.author}}: <br/>
-            <span ng-repeat="keyword in post.authorKeys">"{{keyword.text}}" </span>
+        <div class="topics">
+            <div>The user who posted this story, <span>{{post.author}}</span>, has recently mentioned the following:</div>
+            <span ng-repeat="keyword in post.authorKeys">
+                <span ng-if="keyword.sentiment.type == 'positive'" class="positive"> {{keyword.text}}, </span>
+                <span ng-if="keyword.sentiment.type == 'neutral'" class="neutral"> {{keyword.text}}, </span>
+                <span ng-if="keyword.sentiment.type == 'negative'" class="neutral"> {{keyword.text}}, </span>
+                <span ng-if="!keyword.sentiment"> {{keyword.text}}, </span>
+            </span>
         </div>
     </div>
 </div>
