@@ -8,28 +8,38 @@ var admin = wroth.sessionHas('username', '/');
 // reddit routes
 
 router.get('/', function (req, res, next) {
-  axios.get('https://www.reddit.com/r/' + req.query.sub + '.json')
-    .then(function (results) {
-      var matchDomain = 'self.' + req.query.sub;
-      var posts = [];
-      var reddits = results.data.data.children;
-      reddits.forEach(function (ele) {
-        var post = {};
-        post.comments = 'https://www.reddit.com' + ele.data.permalink;
-        post.author = ele.data.author;
-        if (ele.data.domain === matchDomain) {
-          post.title = ele.data.title;
-          post.text = ele.data.selftext;
-          posts.push(post);
-        } else {
-          post.title = ele.data.title;
-          post.url = ele.data.url;
-          post.domain = ele.data.domain;
-          posts.push(post);
-        }
+  if (req.query.sub) {
+    axios.get('https://www.reddit.com/r/' + req.query.sub + '.json')
+      .then(function (results) {
+        var matchDomain = 'self.' + req.query.sub;
+        var posts = [];
+        var reddits = results.data.data.children;
+        reddits.forEach(function (ele) {
+          var post = {};
+          post.comments = 'https://www.reddit.com' + ele.data.permalink;
+          post.author = ele.data.author;
+          if (ele.data.domain === matchDomain) {
+            post.title = ele.data.title;
+            post.text = ele.data.selftext;
+            posts.push(post);
+          } else {
+            post.title = ele.data.title;
+            post.url = ele.data.url;
+            post.domain = ele.data.domain;
+            posts.push(post);
+          }
+        });
+        res.json({posts: posts});
       });
-      res.json({posts: posts});
-    });
+  } else {
+    console.log('no sub specified')
+    var getPosts = req.db.get('posts');
+    getPosts.find({})
+      .then(function (results) {
+        res.json(results);
+      })
+  }
+
 });
 
 router.post('/', function (req, res, next) {

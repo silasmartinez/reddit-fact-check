@@ -8,20 +8,21 @@ export default ngModule => {
         $scope.posts = posts;
       }
 
-      if ($routeParams.subReddit) {
+      //if ($routeParams.subReddit) {
         loadRemoteData($routeParams.subReddit);
-      } else {
-        var baseData = [{
-          title: 'Select a subreddit from the links to the left of this message, or log in to add subreddits.'
-        }];
-        applyRemoteData(baseData);
-      }
+      //} else {
+      //  loadRemoteData();
+      //}
 
-      function loadRemoteData () {
-        redditService.getSubReddit($routeParams.subReddit)
-          .then(
+      function loadRemoteData (target) {
+      redditService.getSubReddit(target)
+        .then(
             function (data) {
-              applyRemoteData(data.posts);
+              if (data.posts) {
+                applyRemoteData(data.posts);
+              } else {
+                applyRemoteData(data);
+              }
             }
         );
       }
