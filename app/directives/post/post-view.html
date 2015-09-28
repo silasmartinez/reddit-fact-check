@@ -6,7 +6,7 @@
 
     <div class="link" ng-if="post.comments">
         <a href="{{post.comments}}" target="_blank">comment thread</a><br/>
-        {{post.author}} <span ng-click="evaluatePost(post._id)">(evaluate post)</span><br/><br/>
+        {{post.author}} <button ng-if="user" ng-click="evaluatePost(post._id)">evaluate post</button><br/><br/>
     </div>
     <p ng-if="post.url"><a href="{{post.url}}" target="_blank">{{post.url}}</a></p>
     <div ng-if="post.text" ng-bind-html="post.text | sanitize"></div>
